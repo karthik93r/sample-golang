@@ -1,0 +1,6 @@
+sudo docker build -t openn/openn-ops-test-build:2.0 ./. | tee /build_logs/docker_build.log
+check_error "docker build"
+
+docker run -t -d -P --name openn-ops-test-build \
+       -v /build_logs:/build_logs \
+         openn/openn-ops-test-build:2.0 //bin/sh -c '/openn_build | tee /build_logs/openn_build.log'

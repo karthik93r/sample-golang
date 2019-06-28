@@ -1,0 +1,36 @@
+#!/bin/bash
+set -x
+
+builds_folder="/builds"
+build_start_time=$(date +%Y-%m-%d-%H-%M-%S)
+build_log="/build_logs/sample_build.log"
+
+script_success="##SCRIPT SUCCESS##"
+script_error="##SCRIPT ERROR##"
+
+check_error() {
+
+  if [ $? -eq 0 ]; then
+    echo $1 " check_error success!"
+  else
+    echo $1 " check_error error!"
+    echo $script_errror
+    exit 1
+  fi
+}
+
+
+date | tee -a $build_log
+
+pwd
+
+#Server build
+cd $builds_folder
+go get -u github.com/tkanos/gonfig
+check_error "gonfig"
+
+go build ./...
+check_error "go build"
+
+./builds
+
